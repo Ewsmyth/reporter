@@ -1,0 +1,70 @@
+{% extends 'user-base2.html' %}
+
+{% block title %}POSREP{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-posrep.css') }}">
+{% endblock %}
+
+{% block banner %}
+  POSREP
+{% endblock %}
+
+{% block content %}
+
+  <form action="{{ url_for('user.userPosrep', username=username) }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="input-div team-div">
+      <input type="text" placeholder="Team" name="team-fr-usr">
+      <a id="helpButtonTeam">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextTeam" class="hidden">
+        <p>Enter the team name or number of the reported team.</p>
+      </div>
+    </div>
+
+    <div class="input-div location-div">
+      <input type="text" placeholder="Location" name="location-fr-usr">
+      <a id="helpButtonLocation">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextLocation" class="hidden">
+        <p>Enter an MGRS grid between 6 to 10 digits.</p>
+      </div>
+    </div>
+
+    <div class="input-div date-div">
+      <input type="date" name="date-fr-usr">
+      <a id="helpButtonDate">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextDate" class="hidden">
+        <p>Provide the date of the position report.</p>
+      </div>
+    </div>
+
+    <div class="input-div time-div">
+      <input type="time" name="time-fr-usr">
+      <a id="helpButtonTime">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextTime" class="hidden">
+        <p>Provide the time of the position report.</p>
+      </div>
+    </div>
+
+    <div class="reset-button-div">
+      <input class="reset-button" type="image" src="{{ url_for('static', filename='images/reset-wrench.png') }}" onclick="this.form.reset(); return false;">
+    </div>
+
+    <input type="submit" value="Submit POSREP">
+
+  </form>
+
+  <script src="{{ url_for('static', filename='js/user-posrep.js') }}"></script>
+
+{% endblock %}

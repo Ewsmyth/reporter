@@ -1,0 +1,65 @@
+{% extends 'user-base2.html' %}
+
+{% block title %}MISREP{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-misrep.css') }}">
+{% endblock %}
+
+{% block banner %}
+  MISREP
+{% endblock %}
+
+{% block content %}
+
+  <form action="{{ url_for('user.userMisrep', username=username) }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="input-div mis-name-div">
+      <input type="text" placeholder="Mission Name" name="mis-name-fr-usr">
+      <a id="helpButtonMissionName">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextMissionName" class="hidden">
+        <p>Enter the name of the operation being reported on.</p>
+      </div>
+    </div>
+
+    <div class="input-div result-div">
+      <select name="result-fr-usr">
+        <option value="" disabled selected>*Mission Result</option>
+        <option value="success">Success</option>
+        <option value="inconclusive">inconclusive</option>
+        <option value="failure">Failure</option>
+      </select>
+      <a id="helpButtonResult">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextResult" class="hidden">
+        <p>Describe the result of the mission by successful, inconclusive or failure.</p>
+      </div>
+    </div>
+
+    <div class="input-div detail-div">
+      <textarea name="mis-detail-fr-usr"></textarea>
+      <a id="helpButtonDetail">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextDetail" class="hidden">
+        <p>Descirbe the mission and what took place, give the main WIIFM and keep it straight forward.</p>
+      </div>
+    </div>
+
+    <div class="reset-button-div">
+      <input class="reset-button" type="image" src="{{ url_for('static', filename='images/reset-wrench.png') }}" onclick="this.form.reset(); return false;">
+    </div>
+
+    <input type="submit">
+
+  </form>
+
+  <script src="{{ url_for('static', filename='js/user-misrep.js') }}"></script>
+
+{% endblock %}

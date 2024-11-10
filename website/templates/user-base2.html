@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Reporter{% endblock %}</title>
+    {% block css %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-base2.css') }}">
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="back-icon-wrap">
+        <a class="back-icon" href="{{ url_for('user.userHome', username=username) }}">
+          <img src="{{ url_for('static', filename='images/arrow-back.png') }}" alt="">
+        </a>
+      </div>
+      <h1 class="banner-title">
+        {% block banner %}
+        {% endblock %}
+      </h1>
+      <div class="chat-icon-wrap">
+        <a class="chat-icon" href="{{ url_for('user.userChatter', username=username) }}">
+          <img src="{{ url_for('static', filename='images/chat-icon.png') }}" alt="">
+        </a>
+      </div>
+    </div>
+    <div class="main-page-content">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

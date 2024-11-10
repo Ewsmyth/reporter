@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Create Group Chat</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/start-group-chat.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="navbar">
+
+      <div class="back-icon-wrap">
+        <a class="back-icon" href="{{ url_for('user.userChatter', username=username) }}">
+          <img src="{{ url_for('static', filename='images/arrow-back.png') }}" alt="">
+        </a>
+      </div>
+
+      <h1 class="banner-title">New Group Chat</h1>
+
+    </div>
+
+    <div class="main-content">
+      <!-- Group Chat Form -->
+      <form id="group-chat-form" method="POST">
+        <div class="name-search-div">
+          <div class="group-name-wrap">
+            <!-- Group Chat Name -->
+            <input type="text" id="group_name" name="group_name" placeholder="Enter group chat name" required>
+          </div>
+          <div class="search-div">
+            <!-- Search for Users -->
+            <input type="text" id="search_query" placeholder="Search for users...">
+            <button type="button" id="search-button">
+              <img src="{{ url_for('static', filename='images/search-icon.png') }}" alt="">
+            </button>
+          </div>
+        </div>
+      
+        <div class="search-results-wrap">
+          <!-- Display search results -->
+           
+          <div id="search-results">
+          </div>
+        </div>
+      
+        <!-- List of selected users -->
+        <div class="members-banner">
+          <h1>Members</h1>
+        </div>
+        <ul id="selected-users"></ul>
+      
+        <!-- Hidden field to store selected users for submission -->
+        <input type="hidden" name="selected_users" id="selected_users_input">
+      
+        <!-- Submit the form -->
+        <div class="new-chat-div">
+          <button type="submit" class="new-chat-button">
+            <img src="{{ url_for('static', filename='images/arrow-forward.png') }}" alt="New Chat">
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      let selectedUsers = [];
+
+      // Get the CSRF token from the meta tag
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+      // Handle search button click
+      document.getElementById('search-button').addEventListener('click', function() {
+          const searchQuery = document.getElementById('search_query').value;
+
+          // Perform the search via fetch API
+          fetch("{{ url_for('user.searchForUser', username=username) }}", {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'X-CSRFToken': csrfToken  // Include the CSRF token in the headers
+              },
+              body: `search_query=${encodeURIComponent(searchQuery)}`
+          })
+          .then(response => response.json())
+          .then(users => {
+              let resultsDiv = document.getElementById('search-results');
+              resultsDiv.innerHTML = '';  // Clear previous results
+              users.forEach(user => {
+                  const userElement = document.createElement('div');
+                  userElement.classList.add = ('user-results');
+                  userElement.dataset.userId = user.id;
+                  userElement.style.cursor = 'pointer';
+
+                  // Add the profile image and username
+                  userElement.innerHTML = `
+                    <img src="{{ url_for('static', filename='images/user-account.png') }}" alt="${user.username}" class="profile-img" />
+                    <span class="username">${user.username}</span>
+                  `;
+
+                  // Add click event to confirm user addition
+                  userElement.addEventListener('click', function() {
+                      Swal.fire({
+                          title: 'Add User to Group?',
+                          text: `Do you want to add ${user.username} to the group?`,
+                          icon: 'question',
+                          showCancelButton: true,
+                          confirmButtonText: 'Yes, add',
+                          cancelButtonText: 'No'
+                      }).then(result => {
+                          if (result.isConfirmed) {
+                              addUserToList(user);
+                          }
+                      });
+                  });
+
+                  resultsDiv.appendChild(userElement);
+              });
+          });
+      });
+
+      // Function to add user to selected list
+      function addUserToList(user) {
+          if (!selectedUsers.some(u => u.id === user.id)) {
+            selectedUsers.push(user);
+
+            // Update the list in the UI
+            const userList = document.getElementById('selected-users');
+            const userElement = document.createElement('li');
+            userElement.classList.add('selected-user-item');  // Add a class for styling
+            userElement.dataset.userId = user.id;
+
+            // Add profile image and username
+            userElement.innerHTML = `
+              <img src="{{ url_for('static', filename='images/user-account.png') }}" alt="${user.username}" class="profile-img" />
+              <span class="username">${user.username}</span>
+            `;
+
+            // Add remove functionality
+            userElement.addEventListener('click', function() {
+              removeUserFromList(user.id);
+            });
+
+            userList.appendChild(userElement);
+
+            // Update the hidden input for form submission
+            document.getElementById('selected_users_input').value = JSON.stringify(selectedUsers);
+        }
+      }
+
+      // Function to remove a user from the list
+      function removeUserFromList(userId) {
+          selectedUsers = selectedUsers.filter(user => user.id !== userId);
+
+          // Update the list in the UI
+          const userList = document.getElementById('selected-users');
+          const userElement = userList.querySelector(`[data-user-id='${userId}']`);
+          userList.removeChild(userElement);
+
+          // Update the hidden input for form submission
+          document.getElementById('selected_users_input').value = JSON.stringify(selectedUsers);
+      }
+
+      // Handle form submission for group creation
+      document.getElementById('group-chat-form').addEventListener('submit', function(event) {
+          event.preventDefault();  // Prevent default form submission
+
+          // Get form data
+          const groupName = document.getElementById('group_name').value;
+          const selectedUsers = document.getElementById('selected_users_input').value;
+
+          // Perform the fetch API call to submit the form data
+          fetch("{{ url_for('user.createGroupChat', username=username) }}", {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'X-CSRFToken': csrfToken  // Include the CSRF token in the headers
+              },
+              body: `group_name=${encodeURIComponent(groupName)}&selected_users=${encodeURIComponent(selectedUsers)}`
+          })
+          .then(response => response.json())  // Expect JSON response
+          .then(data => {
+              // Redirect the user to the new group chat URL
+              if (data.chat_url) {
+                  window.location.href = data.chat_url;  // Redirect to the new chat
+              } else {
+                  console.error('Failed to get chat URL from server.');
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+{% extends 'user-base2.html' %}
+
+{% block title %}SPOTREP{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-spotrep.css') }}">
+{% endblock %}
+
+{% block banner %}
+  SPOTREP
+{% endblock %}
+
+{% block content %}
+  <form action="{{ url_for('user.userSpotrep', username=username) }}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="input-div size-div">
+      <input type="text" placeholder="Size" name="size-fr-usr">
+      <a id="helpButtonSize">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextSize" class="hidden">
+        <p>Enter an estimated size of observed element.</p>
+      </div>
+    </div>
+
+    <div class="input-div activity-div">
+      <input type="text" placeholder="Activity" name="activity-fr-usr">
+      <a id="helpButtonActivity">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextActivity" class="hidden">
+        <p>Describe the element's actions at the time of observation.</p>
+      </div>
+    </div>
+
+    <div class="input-div location-div">
+      <input type="text" placeholder="Location" name="location-fr-usr">
+      <a id="helpButtonLocation">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextLocation" class="hidden">
+        <p>Enter an MGRS grid between 6 to 10 digits.</p>
+      </div>
+    </div>
+
+    <div class="input-div unit-div">
+      <input type="text" placeholder="Unit" name="unit-fr-usr">
+      <a id="helpButtonUnit">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextUnit" class="hidden">
+        <p>Provide information regarding the unit type.</p>
+      </div>
+    </div>
+
+    <div class="input-div date-div">
+      <input type="date" name="date-fr-usr">
+      <a id="helpButtonDate">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextDate" class="hidden">
+        <p>Provide the date of the observation.</p>
+      </div>
+    </div>
+
+    <div class="input-div time-div">
+      <input type="time" name="time-fr-usr">
+      <a id="helpButtonTime">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextTime" class="hidden">
+        <p>Provide the time of observation.</p>
+      </div>
+    </div>
+
+    <div class="input-div equipment-div">
+      <input type="text" placeholder="Equipment" name="equip-fr-usr">
+      <a id="helpButtonEquipment">
+        <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+      </a>
+      <div id="helpTextEquipment" class="hidden">
+        <p>Describe any and all types of equipment/weapons the element has at the time of the observation.</p>
+      </div>
+    </div>
+
+    <div class="reset-button-div">
+      <input class="reset-button" type="image" src="{{ url_for('static', filename='images/reset-wrench.png') }}" onclick="this.form.reset(); return false;">
+    </div>
+
+    <input type="submit" value="Submit SPOTREP">
+    
+  </form>
+
+  <script src="{{ url_for('static', filename='js/user-spotrep.js') }}"></script>
+
+{% endblock %}

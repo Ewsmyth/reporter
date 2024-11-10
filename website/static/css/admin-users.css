@@ -1,0 +1,17 @@
+table {
+    border-collapse: collapse;
+}
+th,
+td {
+    border-top: 1px solid #575757;
+    border-right: 2px solid #575757;
+    border-bottom: 1px solid #575757;
+    border-left: 1px solid #575757;
+    padding: 4px 8px;
+}
+th {
+    font-size: 14px;
+}
+td {
+    font-size: 12px;
+}

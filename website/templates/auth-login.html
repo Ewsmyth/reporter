@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/auth-login.css') }}">
+  </head>
+  <body>
+    <div class="logo-div">
+      <img src="{{ url_for('static', filename='images/reporter-logo.png') }}" alt="Reporter">
+    </div>
+    <div class="form-div">
+      <form action="{{ url_for('auth.login') }}" method="post">
+        {{ form.hidden_tag() }}  <!-- This ensures the CSRF token is hidden and included -->
+
+        <!-- User input fields -->
+        <input id="inputUsername" type="text" name="usrnm_email" placeholder="Username or Email" required>
+        <input id="inputPassword" type="password" name="password" placeholder="Password" required>
+
+        <!-- Submit button -->
+        <input id="inputSubmit" type="submit" value="Login">
+      </form>
+      <div class="signup-div">
+        <h6>Don't have an account? <a href="{{ url_for('auth.signUp') }}">Sign Up</a></h6>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Reporter{% endblock %}</title>
+    {% block css %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-base.css') }}">
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="account-dropdown">
+        <img class="dropbtn" onclick="toggleDropdown()" src="{{ url_for('static', filename='images/user-account.png') }}" alt="Account">
+        <div class="dropdown-content" id="accountDropdown">
+          <a class="dropdown-item account" href="{{ url_for('user.userAccount', username=username) }}">
+            <img src="{{ url_for('static', filename='images/manage-account.png') }}" alt="Account">
+            <p>Account</p>
+          </a>
+          <a class="dropdown-item logout" href="{{ url_for('auth.logout') }}">
+            <img src="{{ url_for('static', filename='images/logout.png') }}" alt="Logout">
+            <p>Logout</p>
+          </a>
+        </div>
+      </div>
+      <h1 class="banner-title">
+        {% block banner %}
+        {% endblock %}
+      </h1>
+      <div class="chat-icon-wrap">
+        <a class="chat-icon" href="{{ url_for('user.userChatter', username=username) }}">
+          <img src="{{ url_for('static', filename='images/chat-icon.png') }}" alt="">
+        </a>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/user-base.js') }}"></script>
+    <div class="main-page-content">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

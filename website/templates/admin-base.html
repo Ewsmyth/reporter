@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin Home Page{% endblock %}</title>
+  {% block css %}{% endblock %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-base.css') }}">
+</head>
+<body>
+  <!-- Top banner -->
+  <header>
+    <h1>{% block banner %}{% endblock %}</h1>
+  </header>
+
+  <div class="container">
+    <!-- Left sidebar -->
+    <nav id="sidebar">
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <img src="{{ url_for('static', filename='images/sidebar.png') }}" alt="Sidebar">
+      </button>
+
+      <!-- Sidebar items with image, name and tooltip -->
+      <div class="nav-item">
+        <a href="{{ url_for('admin.adminHome', username=username) }}">
+          <img src="{{ url_for('static', filename='images/admin-dashboard.png') }}" alt="Dashboard">
+          <span>Dashboard</span>
+          <div class="tooltip">Dashboard</div>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="{{ url_for('admin.adminUsers', username=username) }}">
+          <img src="{{ url_for('static', filename='images/group-chat.png') }}" alt="Users">
+          <span>Users</span>
+          <div class="tooltip">Users</div>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="{{ url_for('admin.adminCreateUser', username=username) }}">
+          <img src="{{ url_for('static', filename='images/person-add.png') }}" alt="Create New User">
+          <span>Create New User</span>
+          <div class="tooltip">Create New User</div>
+        </a>
+      </div>
+      <div class="nav-item">
+        <img src="{{ url_for('static', filename='images/manage-account.png') }}" alt="Account">
+        <span>Reports</span>
+        <div class="tooltip">Reports</div>
+      </div>
+      <div class="nav-item">
+        <img src="{{ url_for('static', filename='images/manage-account.png') }}" alt="Account">
+        <span>Logout</span>
+        <div class="tooltip">Logout</div>
+      </div>
+    </nav>
+
+    <!-- Main content area -->
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('expanded');
+    }
+  </script>
+</body>
+</html>

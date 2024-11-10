@@ -1,0 +1,75 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.hidden {
+    display: none;
+}
+#helpTextTeam,
+#helpTextLocation,
+#helpTextDate,
+#helpTextTime {
+    position: relative;
+    background-color: #000000;
+    z-index: 10;
+    width: 120px;
+}
+.input-div {
+    display: flex;
+    margin: 15px 0 15px 0;
+    align-items: center;
+    width: 100%;
+}
+.input-div a img {
+    height: 33px;
+    width: 33px;
+}
+.input-div input {
+    height: 32px;
+    margin: 0 25px 0 20px;
+    font-size: 18px;
+    width: 70vw;
+    max-width: 80vw;
+    background-color: transparent;
+    padding: 0;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    color: #ffffff;
+}
+.input-div input:focus {
+    border-bottom: 3px solid #ffffff;
+}
+#helpTextTeam p,
+#helpTextLocation p,
+#helpTextDate p,
+#helpTextTime p {
+    padding: 4px;
+    margin: 0;
+    font-size: 12px;
+    font-family: sans-serif;
+    color: #ffffff;
+}
+input[type='submit'] {
+    width: 250px;
+    font-family: sans-serif;
+    color: #ffffff;
+    background-color: #252525;
+    border-radius: 10px;
+    border: 0;
+    font-size: 27px;
+    font-weight: 700;
+    padding: 7px 4px;
+    margin: 18px;
+}
+.reset-button-div {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+}
+.reset-button {
+    height: 37px;
+    width: 37px;
+    margin: 10px;
+}

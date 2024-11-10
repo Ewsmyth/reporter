@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1b1b1b;
+}
+.navbar {
+    background-color: #414141;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.banner-title {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 28px;
+}
+/* Basic styling for dropdown */
+.account-dropdown {
+    height: 60px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dropbtn {
+    border: none;
+    height: 45px;
+    width: 45px;
+    padding: 0;
+}
+/* The dropdown content, hidden by default */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 60px;
+    min-width: 140px;
+    z-index: 1;
+}
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+.dropdown-item img {
+    width: 48px;
+    height: 48px;
+}
+.dropdown-item p {
+    font-family: sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 0 10px;
+}
+.dropdown-content .dropdown-item {
+    height: 55px;
+}
+/* Show the dropdown content when the button is clicked */
+.show {
+    display: flex;
+    flex-direction: column;
+    background-color: #1b1b1b;
+}
+.chat-icon-wrap {
+    height: 60px;
+    width: 45px;
+    display: flex;
+}
+.chat-icon {
+    height: 60px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.chat-icon img {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+}

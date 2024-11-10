@@ -1,0 +1,165 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1b1b1b;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.navbar {
+    background-color: #414141;
+    height: 60px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.back-icon-wrap {
+    height: 60px;
+    width: 55px;
+    display: flex;
+    margin: 0 15px 0 0;
+}
+.back-icon {
+    height: 60px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.back-icon img {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+}
+.banner-title {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 28px;
+    overflow: hidden;
+}
+.main-content {
+    margin: 60px 0 0 0;
+    display: flex;
+    flex-direction: column;
+}
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+.profile-pic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0 10px 0;
+}
+.f-n-l-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.f-n-l-name h1 {
+    font-family: sans-serif;
+    font-size: 29px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.form-wrap-div {
+    display: flex;
+    justify-content: space-between;
+}
+.add-remove-contact {
+    display: flex;
+}
+.add-remove-contact form {
+    display: flex;
+}
+.add-remove-contact form button {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 2px;
+    background-color: transparent;
+    border: none;
+}
+.add-remove-contact form button img {
+    height: 35px;
+    width: 35px;
+    margin: 3px;
+}
+.add-remove-contact form button h3 {
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+.message-wrap {
+    display: flex;
+}
+.message-wrap form {
+    display: flex;
+}
+.message-wrap form button {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 2px;
+    background-color: transparent;
+    border: none;
+}
+.message-wrap form button img {
+    height: 35px;
+    width: 35px;
+    margin: 3px;
+}
+.message-wrap form button h3 {
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 5px 0 0;
+}
+
+
+
+
+
+
+
+
+.user-info-wrap {
+    box-shadow: 0 -3px 1px #3a3a3a;
+    display: flex;
+    flex-direction: column;
+    margin: 12px 0 0 0;
+}
+.email-wrap {
+    display: flex;
+    margin: 16px 0 8px 0;
+    padding: 0 8px;
+}
+.email-wrap p,
+.joined-wrap p {
+    font-family: sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+.joined-wrap {
+    display: flex;
+    margin: 8px 0 8px 0;
+    padding: 0 8px;
+}

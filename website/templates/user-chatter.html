@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Chatter</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-chatter.css') }}">
+  </head>
+  <body>
+    <div class="navbar">
+
+      <div class="back-icon-wrap">
+        <a class="back-icon" href="{{ url_for('user.userHome', username=username) }}">
+          <img src="{{ url_for('static', filename='images/arrow-back.png') }}" alt="">
+        </a>
+      </div>
+
+      <h1 class="banner-title">{{  current_user.username }}</h1>
+
+      <div class="contacts-icon-wrap">
+        <a class="contacts-icon" href="{{ url_for('user.userContacts', username=username) }}">
+          <img src="{{ url_for('static', filename='images/contacts-icon.png') }}" alt="">
+        </a>
+      </div>
+
+    </div>
+
+
+    <a class="new-chat-a" href="{{ url_for('user.startGroupChat', username=username) }}">
+      <button class="new-chat-button">
+        <img src="{{ url_for('static', filename='images/new-chat.png') }}" alt="New Chat">
+      </button>
+    </a>
+
+
+    <ul>
+      {% for chat in chats %}
+        {% if chat.is_group %}
+          <li>
+            <a href="{{ url_for('user.viewChat', username=username, chat_id=chat.id) }}">
+              <div class="img-wrap gc-img-wrap">
+                <img src="{{ url_for('static', filename='images/group-chat.png') }}" alt="GC">
+              </div>
+              <div class="chat-name-div">
+                <h2>{{ chat.group_name }}</h2>
+                <p class="latest-message">
+                  {% if chat.latest_message.sender_username %}
+                    {{ chat.latest_message.sender_username }}: {{ chat.latest_message.content }}
+                  {% else %}
+                    {{ chat.latest_message.content }}
+                  {% endif %}
+                </p>
+              </div>
+              {% if chat.unread_count > 0 %}
+              <div class="notif-div">
+                <p class="notification-badge">{{ chat.unread_count }}</p>
+              </div>
+              {% endif %}
+            </a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{{ url_for('user.viewChat', username=username, chat_id=chat.id) }}">
+              <div class="img-wrap dm-img-wrap">
+                <img src="{{ url_for('static', filename='images/direct-message.png') }}" alt="GC">
+              </div>
+              <div class="chat-name-div">
+                <h2>{{ chat.participants|join(', ') }}</h2>
+                <p class="latest-message">
+                  {% if chat.latest_message.sender_username %}
+                    {{ chat.latest_message.sender_username }}: {{ chat.latest_message.content }}
+                  {% else %}
+                    {{ chat.latest_message.content }}
+                  {% endif %}
+                </p>
+              </div>
+              {% if chat.unread_count > 0 %}
+                <div class="notif-div">
+                  <p class="notification-badge">{{ chat.unread_count }}</p>
+                </div>
+              {% endif %}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </body>
+</html>

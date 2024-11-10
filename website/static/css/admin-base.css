@@ -1,0 +1,163 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #121212;
+    color: #FFFFFF;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Top banner */
+header {
+    background-color: #1f1f1f;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+header h1 {
+    font-size: 24px;
+    color: #FFFFFF;
+}
+
+/* Main container */
+.container {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+/* Sidebar */
+nav {
+    background-color: #1f1f1f;
+    width: 60px;
+    transition: width 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5px;
+    position: relative;
+}
+nav.expanded {
+    width: 250px;
+}
+
+/* Sidebar buttons */
+.nav-item {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 6px 4px 6px 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.nav-item:hover {
+    background-color: #333333;
+}
+.nav-item img {
+    width: 32px;
+    height: 32px;
+}
+.nav-item span {
+    margin-left: 15px;
+    font-size: 16px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: #FFFFFF;
+    font-family: sans-serif;
+}
+
+/* Sidebar items and tooltips are hidden when sidebar is collapsed */
+nav .nav-item span,
+nav .nav-item .tooltip {
+    display: none;
+}
+nav.expanded .nav-item span {
+    display: inline;
+    opacity: 1;
+}
+nav .nav-item:hover .tooltip {
+    display: block;
+    opacity: 1;
+}
+nav.expanded .tooltip {
+    display: none;
+}
+
+/* Tooltip for when sidebar is contracted */
+.nav-item:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+.tooltip {
+    position: absolute;
+    left: 62px;
+    background-color: #333;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s ease;
+    white-space: nowrap;
+    font-family: sans-serif;
+}
+
+/* Show text when sidebar is expanded */
+nav.expanded .nav-item span {
+    opacity: 1;
+}
+
+/* Hide tooltip when sidebar is expanded */
+nav.expanded .tooltip {
+    display: none;
+}
+
+/* Main content area */
+main {
+    flex: 1;
+    background-color: #181818;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Expand/contract button */
+.toggle-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 5px;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.toggle-btn img {
+    height: 32px;
+    width: 32px;
+}
+.toggle-btn:hover {
+    background-color: #333333;
+}
+#sidebar .nav-item a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}

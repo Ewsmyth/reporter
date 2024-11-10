@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Contacts</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-contacts.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/flash-messages.css') }}">
+  </head>
+  <body>
+    <div class="navbar">
+
+      <div class="back-icon-wrap">
+        <a class="back-icon" href="{{ url_for('user.userChatter', username=username) }}">
+          <img src="{{ url_for('static', filename='images/arrow-back.png') }}" alt="">
+        </a>
+      </div>
+
+      <!-- Search Form -->
+      <form class="form-wrap" method="POST" action="{{ url_for('user.searchContacts', username=username) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"> <!-- Hidden CSRF token field -->
+        <input type="text" name="search_query" placeholder="Search for a user..." required>
+        <button type="submit">
+          <img src="{{ url_for('static', filename='images/search-icon.png') }}" alt="">
+        </button>
+      </form>
+
+    </div>
+
+    <div class="main-content">
+      <!-- Display flashed messages (if any) -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashed-messages" id="flash-messages">
+            {% for category, message in messages %}
+              <li class="flash-message {{ category }}">
+                {{ message }}
+                <button class="close-flash" aria-label="Close">&times;</button>
+                <div class="progress-bar"></div> <!-- Add progress bar element -->
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <!-- Contacts List -->
+      {% if not search_performed %}
+        {% if contacts %}
+          <ul>
+            {% for contact in contacts %}
+              <li>
+                <a href="{{ url_for('user.viewProfile', username=username, user_id=contact.id) }}">
+                  <img src="{{ url_for('static', filename='images/user-account.png') }}" alt="">
+                  <h1>{{ contact.username }}</h1>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="no-contacts">You have no contacts yet.</p>
+        {% endif %}
+      {% endif %}
+
+      <!-- Search Results -->
+      {% if search_performed %}
+        {% if search_results %}
+          <ul>
+            {% for user in search_results %}
+              <li>
+                <a href="{{ url_for('user.viewProfile', username=username, user_id=user.id) }}">
+                  <img src="{{ url_for('static', filename='images/user-account.png') }}" alt="">
+                  <h1>{{ user.username }}</h1>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <h3>No results found</h3>
+        {% endif %}
+      {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='js/flash-timer.js') }}"></script>
+  </body>
+</html>

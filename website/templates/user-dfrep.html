@@ -1,0 +1,120 @@
+{% extends 'user-base2.html' %}
+
+{% block title %}DFREP{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-dfrep.css') }}">
+{% endblock %}
+
+{% block banner %}
+  DFREP
+{% endblock %}
+
+{% block content %}
+
+    <form action="{{ url_for('user.userDfrep', username=username) }}" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <div class="input-div date-div">
+        <input type="date" name="date-fr-usr" placeholder="Date">
+        <a id="helpButtonDate">
+          <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+        </a>
+        <div id="helpTextDate" class="hidden">
+          <p>Enter the date of the collection.</p>
+        </div>
+      </div>
+
+      <div class="input-div time-div">
+        <input type="time" name="time-fr-usr" placeholder="Time">
+        <a id="helpButtonTime">
+          <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+        </a>
+        <div id="helpTextTime" class="hidden">
+          <p>Enter the time of the collection.</p>
+        </div>
+      </div>
+
+      <div class="input-div location-div">
+        <input type="text" name="location-fr-usr" placeholder="Location">
+        <a id="helpButtonLocation">
+          <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+        </a>
+        <div id="helpTextLocation" class="hidden">
+          <p>Enter the MGRS grid of the DF node between 6 to 10 digits.</p>
+        </div>
+      </div>
+
+      <div class="input-div azimuth-div">
+        <input type="text" name="azimuth-fr-usr" placeholder="Azimuth">
+        <a id="helpButtonAzimuth">
+          <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+        </a>
+        <div id="helpTextAzimuth" class="hidden">
+          <p>Enter the azimuth of the emitter from the DF node.</p>
+        </div>
+      </div>
+
+      <div class="input-div freq-div">
+        <input type="number" name="freq-fr-usr" step="0.001" placeholder="Frequency"><p>MHz</p>
+        <a id="helpButtonFreq">
+          <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+        </a>
+        <div id="helpTextFreq" class="hidden">
+          <p>Enter the frequency the emitter was transmitting on.</p>
+        </div>
+      </div>
+
+      <div class="input-div rssi-div">
+        <input type="number" name="rssi-fr-usr" min="-500" placeholder="RSSI"><p>dBm</p>
+        <a id="helpButtonRssi">
+          <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+        </a>
+        <div id="helpTextRssi" class="hidden">
+          <p>Enter the RSSI value the receiver was collecting from the transmitter.</p>
+        </div>
+      </div>
+
+      <div class="input-div mod-div">
+        <input type="text" name="mod-fr-usr" placeholder="Modulation">
+        <a id="helpButtonMod">
+          <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+        </a>
+        <div id="helpTextMod" class="hidden">
+          <p>Enter the modulation type the tranmitter was using.</p>
+        </div>
+      </div>
+
+      <div class="input-div tech-div">
+        <input type="text" name="tech-fr-usr" placeholder="Technology">
+        <a id="helpButtonTech">
+          <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+        </a>
+        <div id="helpTextTech" class="hidden">
+          <p>Enter the type of technology the transmitter was using.</p>
+        </div>
+      </div>
+
+      <div class="input-div proto-div">
+        <input type="text" name="proto-fr-usr" placeholder="Protocol">
+        <a id="helpButtonProto">
+          <img src="{{ url_for('static', filename='images/info-icon.png') }}" alt="Info">
+        </a>
+        <div id="helpTextProto" class="hidden">
+          <p>Enter the protocol the transmitter was using.</p>
+        </div>
+      </div>
+
+      <div class="reset-button-div">
+        <input class="reset-button" type="image" src="{{ url_for('static', filename='images/reset-wrench.png') }}" onclick="this.form.reset(); return false;">
+      </div>
+
+      <input type="submit" value="Submit DFREP">
+      
+    </form>
+
+    <script src="{{ url_for('static', filename='js/user-dfrep.js') }}"></script>
+
+{% endblock %}

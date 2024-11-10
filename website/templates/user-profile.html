@@ -1,0 +1,102 @@
+<!-- user-profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ user_profile.username }}'s Profile</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-profile.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/flash-messages.css') }}">
+  </head>
+  <body>
+    <div class="navbar">
+
+      <div class="back-icon-wrap">
+        <a class="back-icon" href="{{ url_for('user.userContacts', username=username) }}">
+          <img src="{{ url_for('static', filename='images/arrow-back.png') }}" alt="">
+        </a>
+      </div>
+
+      <h1 class="banner-title">
+        {{ user_profile.username }}
+      </h1>
+
+    </div>
+
+    <div class="main-content">
+
+      <!-- Display flashed messages (if any) -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashed-messages" id="flash-messages">
+            {% for category, message in messages %}
+              <li class="flash-message {{ category }}">
+                {{ message }}
+                <button class="close-flash" aria-label="Close">&times;</button>
+                <div class="progress-bar"></div> <!-- Add progress bar element -->
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <div class="profile-info">
+        <div class="profile-pic">
+          <img src="{{ url_for('static', filename='images/user-account.png') }}" alt="">
+        </div>
+        <div class="f-n-l-name">
+          <h1>{{ user_profile.firstname }} {{ user_profile.lastname }}</h1>
+        </div>
+      </div>
+
+
+
+      <div class="form-wrap-div">
+
+        <div class="add-remove-contact">
+          <!-- Add/Remove contacts button -->
+          <form method="POST" action="{{ url_for('user.addRemoveContact', username=username, user_id=user_profile.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            {% if in_contacts %}
+              <button type="submit">
+                <img src="{{ url_for('static', filename='images/added-check.png') }}" alt="Add">
+                <h3>Remove from contacts</h3>
+              </button>
+            {% else %}
+              <button type="submit">
+                <img src="{{ url_for('static', filename='images/new-chat.png') }}" alt="Remove">
+                <h3>Add to contacts</h3>
+              </button>
+            {% endif %}
+          </form>
+        </div>
+
+        <div class="message-wrap">
+          <form method="POST" action="{{ url_for('user.createChatWithContact', username=username) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"> <!-- Hidden CSRF token field -->
+            <input type="hidden" name="contact_id" value="{{ user_profile.id }}">
+            <button type="submit">
+              <img src="{{ url_for('static', filename='images/chat-icon.png') }}" alt="">
+              <h3>Message</h3>
+            </button>
+          </form>
+        </div>
+        
+      </div>
+
+      <div class="user-info-wrap">
+        <!-- Display user's details -->
+        <div class="email-wrap">
+          <p>Email: {{ user_profile.email }}</p>
+        </div>
+        <div class="joined-wrap">
+          <p>Joined: {{ user_profile.created_at.strftime('%B %d, %Y') }}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/flash-timer.js') }}"></script>
+  </body>
+</html>

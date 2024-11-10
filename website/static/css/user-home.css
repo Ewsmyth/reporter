@@ -1,0 +1,28 @@
+.button-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1.5vw 0 0 0;
+}
+.button-div a {
+    text-decoration: none;
+}
+.button-div a button {
+    width: 39vw;
+    min-width: 85px;
+    max-width: 270px;
+    aspect-ratio: 1/1;
+    margin: 3vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 20px;
+    border: none;
+    background-color: #838383;
+    color: #ffffff;
+}
+.button-div a button h3 {
+    margin: 0;
+    padding: 0;
+}

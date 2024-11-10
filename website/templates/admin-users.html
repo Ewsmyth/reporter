@@ -1,0 +1,51 @@
+{% extends 'admin-base.html' %}
+
+{% block title %}
+  Users
+{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-users.css') }}">
+{% endblock %}
+
+{% block banner %}
+  Users
+{% endblock %}
+
+{% block content %}
+<table>
+  <thead>
+    <tr>
+      <th>USER_ID</th>
+      <th>USERNAME</th>
+      <th>EMAIL</th>
+      <th>AUTHORITY</th>
+      <th>MANAGER_ID</th>
+      <th>TEAM</th>
+      <th>FIRSTNAME</th>
+      <th>LASTNAME</th>
+      <th>ACCOUNT_STATUS</th>
+      <th>ACCOUNT_CREATED_TIMESTAMP</th>
+      <th>ACCOUNT_UPDATED_TIMESTAMP</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in reporterUsers %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.auth }}</td>
+        <td>{{ user.manager_id }}</td>
+        <td>{{ user.team }}</td>
+        <td>{{ user.firstname }}</td>
+        <td>{{ user.lastname }}</td>
+        <td>{{ user.is_active }}</td>
+        <td>{{ user.created_at.strftime('%Y-%m-%d, %H:%M:%S') }}</td>
+        <td>{{ user.updated_at.strftime('%Y-%m-%d, %H:%M:%S') }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

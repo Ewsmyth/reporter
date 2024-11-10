@@ -1,0 +1,32 @@
+{% extends 'user-base2.html' %}
+
+{% block title %}SITREP{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-sitrep.css') }}">
+{% endblock %}
+
+{% block banner %}
+  SITREP
+{% endblock %}
+
+{% block content %}
+
+  <form action="">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="text" placeholder="PERSTATS">
+    <input type="text" placeholder="Equipment">
+    <input type="text" placeholder="Comm stat">
+    <input type="text" placeholder="food">
+    <input type="text" placeholder="water">
+    <input type="text" placeholder="fuel">
+    <input type="text" placeholder="ammo">
+    <input type="text" placeholder="medical">
+    <input type="text" placeholder="RFS">
+    <input type="text" placeholder="Enemy">
+    <input type="submit" value="Submit SPOTREP">
+  </form>
+
+{% endblock %}

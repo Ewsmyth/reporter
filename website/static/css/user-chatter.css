@@ -1,0 +1,150 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1b1b1b;
+}
+.navbar {
+    background-color: #414141;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.back-icon-wrap {
+    height: 60px;
+    width: 55px;
+    display: flex;
+}
+.back-icon {
+    height: 60px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.back-icon img {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+}
+.banner-title {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 28px;
+}
+.contacts-icon-wrap {
+    height: 60px;
+    width: 45px;
+    display: flex;
+}
+.contacts-icon {
+    height: 60px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contacts-icon img {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+}
+.new-chat-a {
+    position: fixed;
+    z-index: 1000;
+    right: 10px;
+    bottom: 10px;
+    width: 60px;
+    height: 60px;
+}
+.new-chat-button {
+    border: none;
+    height: 100%;
+    width: 100%;
+    background-color: #414141;
+    border-radius: 10px;
+    padding: 4px;
+}
+.new-chat-button img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+ul {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+}
+li {
+    display: flex;
+    height: 90px;
+    background-color: #1b1b1b;
+}
+li a {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    text-decoration: none;
+}
+.img-wrap {
+    border: 1px solid #333333;
+    height: 65px;
+    width: 65px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0 20px 0 15px;
+}
+.img-wrap img {
+    height: 65px;
+    width: 65px;
+}
+.chat-name-div {
+    width: 65vw;
+    margin: 0 3px 0 0;
+}
+.chat-name-div h2 {
+    margin: 0 0 5px 0;
+    font-family: sans-serif;
+    color: #ffffff;
+}
+.chat-name-div p {
+    margin: 0;
+    max-height: 32px;
+    overflow: hidden;
+    color: #858585;
+    font-family: sans-serif;
+    font-size: 13px;
+}
+.notif-div {
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    background-color: #406EC9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+
+.notification-badge {
+    color: #ffffff;
+    padding: 0;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}

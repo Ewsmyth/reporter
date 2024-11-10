@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Chat</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-chat.css') }}">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  </head>
+  <body>
+    <div class="navbar">
+
+      <div class="back-icon-wrap">
+        <a class="back-icon" href="{{ url_for('user.userChatter', username=username) }}">
+          <img src="{{ url_for('static', filename='images/arrow-back.png') }}" alt="">
+        </a>
+      </div>
+
+      <h1 class="banner-title">
+        {% if chat.is_group %}
+          {{ chat.group_name }}
+        {% else %}
+          <a href="{{ url_for('user.viewProfile', username=username, user_id=chat.participants[0].id) }}">
+            {{ chat.participants[0].username }}
+          </a>
+        {% endif %}
+      </h1>
+
+    </div>
+
+    <!-- Display all messages -->
+    <div class="chat-box" id="chat-box">
+      {% for message in messages %}
+        <div class="message {% if message.sender_id == current_user.id %}sent{% else %}received{% endif %}">
+          <p class="username-content-p">
+            <strong>{{ message.sender.username }}: </strong>
+            {{ message.content }}
+          </p>
+          <p class="time-p">
+            <em>{{ message.timestamp.strftime('%H:%M') }}</em>
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <!-- Message form -->
+    <div class="chat-form-div">
+      <form id="chat-form" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="text" id="message-input" name="message" placeholder="Type your message..." required>
+        <button type="submit">
+          <img src="{{ url_for('static', filename='images/send-icon.png') }}" alt="">
+        </button>
+      </form>
+    </div>
+
+    <script>
+      // Define scrollToBottom function to ensure chat is scrolled to the latest message
+      function scrollToBottom() {
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      // Initialize Socket.IO and handle new messages
+      const socket = io();  // Connect to the Socket.IO server
+      const chatId = "{{ chat.id }}";  // Ensure the chat.id is correctly referenced
+      const username = "{{ username }}";  // Already present
+      const userId = parseInt("{{ current_user.id }}");  // Ensure user ID is passed
+
+      // Keep track of whether the user is at the bottom of the chat
+      let isAtBottom = true;
+
+      // Join the chat room
+      socket.emit('join', { username: username, chat_id: chatId, user_id: userId });
+
+      // Function to format the timestamp to 'HH:MM'
+      function formatTimestamp(timestamp) {
+        const date = new Date(timestamp); // Convert the timestamp string to a Date object
+        const hours = date.getHours().toString().padStart(2, '0'); // Get hours and pad with leading zero if needed
+        const minutes = date.getMinutes().toString().padStart(2, '0'); // Get minutes and pad with leading zero if needed
+        return `${hours}:${minutes}`;
+      }
+
+      // Listen for incoming messages and append them to the chat box
+      socket.on('message', function(data) {
+        const chatBox = document.getElementById('chat-box');
+        const messageElement = document.createElement('div');
+
+        // Convert sender_id to integer for comparison
+        const isCurrentUser = parseInt(data.sender_id) === userId;
+
+        // Add the appropriate class for styling
+        messageElement.classList.add('message');
+        messageElement.classList.add(isCurrentUser ? 'sent' : 'received');
+
+        // Format the timestamp
+        const formattedTimestamp = formatTimestamp(data.timestamp);
+
+        // Set the inner HTML for the message
+        messageElement.innerHTML = `
+          <p class="username-content-p">
+            <strong>${data.sender_username}:</strong> ${data.content}
+          </p>
+          <p class="time-p">
+            <em>${formattedTimestamp}</em>
+          </p>
+        `;
+        messageElement.dataset.messageId = data.message_id; // Store message ID
+
+        // Append the message element to the chat box
+        chatBox.appendChild(messageElement);
+
+        // Scroll to the bottom if the user was already at the bottom
+        if (isAtBottom) {
+          scrollToBottom();
+        }
+
+        // Update the last read message since a new message was added
+        updateLastReadMessage(data.message_id);
+      });
+
+      // Handle form submission for sending messages
+      document.getElementById('chat-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const messageInput = document.getElementById('message-input');
+        const messageContent = messageInput.value;
+
+        if (messageContent.trim() !== '') {
+          socket.emit('message', {
+            chat_id: chatId,
+            sender_id: userId,
+            message: messageContent
+          });
+          messageInput.value = '';
+
+          // Scroll to the bottom after sending a new message
+          scrollToBottom();
+        }
+      });
+
+      // Track if the user is at the bottom of the chat
+      const chatBox = document.getElementById('chat-box');
+      chatBox.addEventListener('scroll', function() {
+        // Check if the user is at the bottom (or close to it)
+        isAtBottom = chatBox.scrollHeight - chatBox.scrollTop <= chatBox.clientHeight + 10;
+
+        // If the user is at the bottom and there are new messages, mark them as read
+        if (isAtBottom) {
+          const lastMessageId = chatBox.lastElementChild?.dataset.messageId;
+          if (lastMessageId) {
+            updateLastReadMessage(lastMessageId);
+          }
+        }
+      });
+
+      // Update the last read message in the backend
+      function updateLastReadMessage(messageId) {
+        socket.emit('message_read', {
+          chat_id: chatId,
+          user_id: userId,
+          message_id: messageId
+        });
+      }
+
+      // Emit a message to update read status when leaving the chat page
+      window.addEventListener('beforeunload', function() {
+        const lastMessageId = chatBox.lastElementChild?.dataset.messageId;
+        if (lastMessageId) {
+          updateLastReadMessage(lastMessageId);
+        }
+      });
+
+      // Scroll to the bottom when the page loads
+      window.onload = function() {
+        scrollToBottom();
+      };
+
+    </script>
+  </body>
+</html>

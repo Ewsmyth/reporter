@@ -1,0 +1,50 @@
+{% extends 'user-base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-home.css') }}">
+{% endblock %}
+
+{% block banner %}
+  {{ username }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="button-div">
+    <a href="{{ url_for('user.userSpotrep', username=username) }}">
+      <button>
+        <h3>SPOTREP</h3>
+      </button>
+    </a>
+    <a href="{{ url_for('user.userPosrep', username=username) }}">
+      <button>
+        <h3>POSREP</h3>
+      </button>
+    </a>
+    <a href="{{ url_for('user.userSitrep', username=username) }}">
+      <button>
+        <h3>SITREP</h3>
+      </button>
+    </a>
+    <a href="{{ url_for('user.userMisrep', username=username) }}">
+      <button>
+        <h3>MISREP</h3>
+      </button>
+    </a>
+    <a href="{{ url_for('user.userDfrep', username=username) }}">
+      <button>
+        <h3>DFREP</h3>
+      </button>
+    </a>
+    <a href="{{ url_for('user.userFiles', username=username) }}">
+      <button>
+        <h3>FILES</h3>
+      </button>
+    </a>
+  </div>
+  
+{% endblock %}

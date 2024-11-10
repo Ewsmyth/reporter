@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/auth-signup.css') }}">
+  </head>
+  <body>
+    <div class="logo-div">
+      <img src="{{ url_for('static', filename='images/reporter-logo.png') }}" alt="Reporter">
+    </div>
+    <div class="form-div">
+      <form action="{{ url_for('auth.signUp') }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="text" name="usrnm-fr-usr" placeholder="Username" required>
+        <input type="email" name="email-fr-usr" placeholder="Email" required>
+        <input type="password" name="psswd-fr-usr" placeholder="Password" required>
+        <input type="password" name="conf-psswd-fr-usr" placeholder="Confirm Password" required>
+        <input type="text" name="mangr-fr-usr" placeholder="Manager">
+        <input type="text" name="team-fr-usr" placeholder="team">
+        <input type="submit" value="Sign Up">
+      </form>
+      <div class="login-div">
+        <h6>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></h6>
+      </div>
+    </div>
+  </body>
+</html>
