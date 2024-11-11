@@ -106,11 +106,11 @@ sudo docker run -d -p <port>:<port> --restart=unless-stopped \
 ```
 ###### Example
 ```
-sudo docker run -d -p 80:80 --restart=unless-stopped \
+sudo docker run -d -p 7667:7667 --restart=unless-stopped \
     -e SQLALCHEMY_DATABASE_URI='sqlite:////var/lib/docker/volumes/reporter-data/reporter-data.db' \
     -e SECRET_KEY='aabbccddeeffgghhiijjkkllmmnnoopp' \
     -e HOST='0.0.0.0' \
-    -e PORT=80 \
+    -e PORT=7667 \
     -v reporter-data:/var/lib/docker/volumes/reporter-data \
     reporter-image
 ```

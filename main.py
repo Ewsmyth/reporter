@@ -6,4 +6,4 @@ app = create_app()
 
 if __name__ == "__main__":
     # Use socketio.run to handle both HTTP and WebSocket connections
-    socketio.run(app, debug=True, host=Config.Host, port=Config.PORT)
+    socketio.run(app, host=Config.HOST, port=Config.PORT)
