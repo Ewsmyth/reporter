@@ -92,7 +92,7 @@ sudo docker volume create <volume name>
 ```
 ###### Example
 ```
-sudo docker colume create reporter-data
+sudo docker volume create reporter-data
 ```
 ##### Install Reporter
 ```
@@ -111,6 +111,6 @@ sudo docker run -d -p 80:80 --restart=unless-stopped \
     -e SECRET_KEY='aabbccddeeffgghhiijjkkllmmnnoopp' \
     -e HOST='0.0.0.0' \
     -e PORT=80 \
-    -v reporter-database:/var/lib/docker/volumes/reporter-database \
+    -v reporter-data:/var/lib/docker/volumes/reporter-data \
     reporter-image
 ```
