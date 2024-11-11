@@ -14,19 +14,55 @@
 
 {% block content %}
 
-  <form action="">
+<div class="form-n-add">
+  <!-- Form -->
+  <form action="{{ url_for('user.userSitrep', username=username) }}" method="POST" data-remove-icon="{{ url_for('static', filename='images/remove.png') }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <input type="text" placeholder="PERSTATS">
-    <input type="text" placeholder="Equipment">
-    <input type="text" placeholder="Comm stat">
-    <input type="text" placeholder="food">
-    <input type="text" placeholder="water">
-    <input type="text" placeholder="fuel">
-    <input type="text" placeholder="ammo">
-    <input type="text" placeholder="medical">
-    <input type="text" placeholder="RFS">
-    <input type="text" placeholder="Enemy">
-    <input type="submit" value="Submit SPOTREP">
+    <div class="full-input">
+      <div class="input-div">
+        <label for="team-fr-usr">Team:</label>
+        <input type="text" name="team-fr-usr" placeholder="Team...">
+      </div>
+    </div>
+  
+    <input type="submit" value="Submit SITREP">
   </form>
+  
+  <!-- Button to open the modal -->
+  <div class="add-new-btn">
+    <button id="addInputBtn">
+      <img class="add-input-icon" src="{{ url_for('static', filename='images/new-chat.png') }}" alt="Add Input">
+    </button>
+  </div>
+</div>
 
+<!-- The Modal -->
+<div id="inputModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-banner">
+      <h3>Select Input Type</h3>
+      <span class="close" id="closeModal">&times;</span>
+    </div>
+    <div class="btn-container">
+      <button onclick="addInput('textarea', 'Situation:')">Situation</button>
+      <button onclick="addInput('text', 'PERSTAT:')">PERSTAT</button>
+      <button onclick="addInput('number', 'Team Size:')">Team Size</button>
+      <button onclick="addInput('number', 'Chow Status (days):')">Chow Status (days)</button>
+      <button onclick="addInput('number', 'Water Status (days):')">Water Status (days)</button>
+      <button onclick="addInput('text', 'Ammunition Status:')">Ammunition Status</button>
+      <button onclick="addInput('textarea', 'Operational Gear:')">Operational Gear</button>
+      <button onclick="addInput('textarea', 'Broken Gear:')">Broken Gear</button>
+      <button onclick="addInput('textarea', 'Missing/Lost Gear:')">Missing/Lost Gear</button>
+      <button onclick="addInput('textarea', 'RFI:')">RFI</button>
+      <button onclick="addInput('textarea', 'RFS:')">RFS</button>
+      <button onclick="addInput('number', 'KIA:')">KIA</button>
+      <button onclick="addInput('number', 'MIA:')">MIA</button>
+      <button onclick="addInput('textarea', 'Intel:')">Intel</button>
+      <!-- Add more buttons as needed for different input types -->
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript to handle flash message progress bar -->
+<script src="{{ url_for('static', filename='js/user-sitrep.js') }}"></script>
 {% endblock %}

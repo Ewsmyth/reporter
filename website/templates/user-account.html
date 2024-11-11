@@ -1,6 +1,54 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <h1>hello</h1>
-    </body>
-</html>
+{% extends 'user-base2.html' %}
+
+{% block title %}Account{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user-account.css') }}">
+{% endblock %}
+
+{% block banner %}
+  Account
+{% endblock %}
+
+{% block content %}
+
+<form action="{{ url_for('user.userAccountUpdate', username=username) }}" method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="li-pair first-pair">
+    <label for="new-username-fr-usr">Username:</label>
+    <input type="text" value="{{ current_user.username }}" placeholder="New Username..." name="new-username-fr-usr">
+  </div>
+  <div class="li-pair">
+    <label for="new-email-fr-usr">Email:</label>
+    <input type="email" value="{{ current_user.email }}" placeholder="New Email..." name="new-email-fr-usr">
+  </div>
+  <div class="li-pair">
+    <label for="new-password-fr-usr">Password:</label>
+    <input type="password" placeholder="New Password..." name="new-password-fr-usr">
+  </div>
+  <div class="li-pair">
+    <label for="new-confirm-password-fr-usr">Confirm Password:</label>
+    <input type="password" placeholder="Confirm New Password..." name="new-confirm-password-fr-usr">
+  </div>
+  <div class="li-pair">
+    <label for="new-firstname-fr-usr">Firstname:</label>
+    <input type="text" placeholder="New Firstname..." value="{{ current_user.firstname }}" name="new-firstname-fr-usr">
+  </div>
+  <div class="li-pair">
+    <label for="new-lastname-fr-usr">Lastname:</label>
+    <input type="text" value="{{ current_user.lastname }}" placeholder="New Lastname..." name="new-lastname-fr-usr">
+  </div>
+  <div class="li-pair">
+    <label for="new-status-fr-usr">Account Status:</label>
+    <select name="new-status-fr-usr">
+      <option value="1" {% if current_user.is_active %}selected{% endif %}>Active</option>
+      <option value="0" {% if not current_user.is_active %}selected{% endif %}>Deactivate</option>
+    </select>
+  </div>
+  <div class="submit-div">
+    <input type="submit" value="Save">
+  </div>
+</form>
+
+{% endblock %}

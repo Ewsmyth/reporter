@@ -3,6 +3,74 @@ body {
     padding: 0;
     background-color: #1b1b1b;
 }
+/* Styles for flash container and messages */
+.flash-container {
+    width: 72%;
+    position: fixed;
+    left: 60px;
+    top: 5px;
+}
+.flash-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+.flash-message {
+    display: flex;
+    align-items: center;
+}
+.flash-message img {
+    width: 25px;
+    height: 25px;
+    margin: 6px 0 6px 4px;
+}
+.flash-message h5 {
+    margin: 6px 23px 6px 3px;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+.flash-div .close-btn {
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0 15px 0 0;
+}
+/* Progress bar styling */
+.progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    width: 0;
+    transition: width 5s linear;
+}
+/* Progress bar color based on the flash message type */
+.flash-div.error .progress-bar {
+    background-color: rgb(255, 156, 156); /* Match error background */
+}
+.flash-div.warning .progress-bar {
+    background-color: rgb(253, 216, 159); /* Match warning background */
+}
+.flash-div.success .progress-bar {
+    background-color: rgb(183, 252, 156); /* Match success background */
+}
+/* Category-specific colors */
+.error {
+    background-color: rgba(252, 95, 95, 0.95);
+    color: rgb(83, 23, 23);
+}
+.warning {
+    background-color: rgba(252, 189, 95, 0.95);
+    color: rgb(102, 78, 26);
+}
+.success {
+    background-color: rgba(139, 252, 95, 0.95);
+    color: rgb(54, 83, 30);
+}
 .navbar {
     position: fixed;
     left: 0;

@@ -1,0 +1,32 @@
+{% extends 'admin-base.html' %}
+
+{% block title %}
+  Create User
+{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-create-user.css') }}">
+{% endblock %}
+
+{% block banner %}
+  Create New User
+{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('admin.adminCreateUser', username=username) }}" method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="text" placeholder="Username..." name="username-fr-usr">
+  <input type="email" placeholder="Email..." name="email-fr-usr">
+  <input type="password" placeholder="Password..." name="password-fr-usr">
+  <select name="auth-fr-usr">
+    <option value="admin">Admin</option>
+    <option value="user">User</option>
+    <option value="manager">Manager</option>
+  </select>
+  <input type="text" placeholder="Team..." name="team-fr-usr">
+  <input type="text" placeholder="Firstname..." name="firstname-fr-usr">
+  <input type="text" placeholder="Lastname..." name="lastname-fr-usr">
+  <input type="submit" value="Create User">
+</form>
+{% endblock %}

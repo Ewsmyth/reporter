@@ -1,10 +1,10 @@
 import json  # Add this import to use json.loads
-
 from flask import Flask, render_template, Blueprint, request, redirect, url_for, flash, jsonify
 from .utils import userReq
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, logout_user
 from datetime import datetime
-from .models import db, Reports, User, Contacts, Chats, ChatParticipants, Messages, GroupChatDetails
+from werkzeug.security import generate_password_hash
+from .models import db, Reports, User, Contacts, Chats, ChatParticipants, Messages, GroupChatDetails, SITREPFields
 from sqlalchemy import and_, asc
 from sqlalchemy.orm import joinedload
 
@@ -15,6 +15,55 @@ user = Blueprint('user', __name__)
 @userReq
 def userAccount(username):
     return render_template('user-account.html', username=username)
+
+@user.route('/<username>/user-home/user-account/update', methods=['POST'])
+@login_required
+@userReq
+def userAccountUpdate(username):
+    # Get data from the form
+    newUsername = request.form.get('new-username-fr-usr')
+    newEmail = request.form.get('new-email-fr-usr')
+    newPassword = request.form.get('new-password-fr-usr')
+    confirmPassword = request.form.get('new-confirm-password-fr-usr')
+    newFirstname = request.form.get('new-firstname-fr-usr')
+    newLastname = request.form.get('new-lastname-fr-usr')
+    newStatus = request.form.get('new-status-fr-usr')
+
+    # Check if passwords match if new password is provided
+    if newPassword and newPassword != confirmPassword:
+        flash('Passwords do not match.', 'error')
+        return redirect(url_for('user.userAccount', username=username))
+
+    # Update only fields that were modified
+    if newUsername and newUsername != current_user.username:
+        current_user.username = newUsername
+
+    if newEmail and newEmail != current_user.email:
+        current_user.email = newEmail
+
+    if newPassword:
+        current_user.password = generate_password_hash(newPassword)
+
+    if newFirstname and newFirstname != current_user.firstname:
+        current_user.firstname = newFirstname
+
+    if newLastname and newLastname != current_user.lastname:
+        current_user.lastname = newLastname
+
+    # Handle account status
+    if newStatus is not None:
+        isActive = bool(int(newStatus))  # Convert "1" or "0" to boolean
+        if isActive != current_user.is_active:
+            current_user.is_active = isActive
+            if not isActive:
+                db.session.commit()  # Save changes before logging out
+                logout_user()  # Log out the user if deactivated
+                return redirect(url_for('auth.logout'))
+
+    # Commit changes to the database
+    db.session.commit()
+    flash('Account updated successfully.', 'success')
+    return redirect(url_for('user.userAccount', username=username))
 
 @user.route('/api/messages', methods=['POST'])
 def receive_messages():
@@ -108,10 +157,45 @@ def userPosrep(username):
 
     return render_template('user-posrep.html', username=username)
 
-@user.route('/<username>/user-home/SITREP')
+@user.route('/<username>/user-home/SITREP', methods=['GET', 'POST'])
 @login_required
 @userReq
 def userSitrep(username):
+    if request.method == 'POST':
+        # Retrieve the team field
+        team = request.form.get('team-fr-usr')
+
+        # Create a new Report entry in the Reports table
+        report = Reports(
+            author_id=current_user.id,  # Set author_id to the current user's ID
+            report_type="SITREP",       # Set report_type to SITREP
+            team=team,                  # Set the team field
+            created_at=datetime.utcnow() # Set the creation time
+        )
+        db.session.add(report)
+        db.session.commit()  # Commit to get the report ID for SITREPFields entries
+
+        # Iterate over additional input fields
+        for field_name, field_value in request.form.items():
+            # Ignore the CSRF token and team field as they are not additional fields
+            if field_name not in ['csrf_token', 'team-fr-usr']:
+                # Extract the label from the field name (e.g., additional-situation -> Situation)
+                label = field_name.replace('additional-', '').replace('-', ' ').title()
+
+                # Add a new entry in SITREPFields
+                sitrep_field = SITREPFields(
+                    report_id=report.id,   # Link to the report just created
+                    input_type=label,      # Use the label as input_type
+                    input_value=field_value  # Use the field content as input_value
+                )
+                db.session.add(sitrep_field)
+
+        # Commit all SITREPFields to the database
+        db.session.commit()
+        
+        flash("SITREP submitted successfully.")
+        return redirect(url_for('user.userSitrep', username=username))
+
     return render_template('user-sitrep.html', username=username)
 
 @user.route('/<username>/user-home/MISREP', methods=['GET', 'POST'])
@@ -450,4 +534,5 @@ def addRemoveContact(username, user_id):
 @login_required
 @userReq
 def userFiles(username):
-    return render_template('user-files.html', username=username)
+    flash('Files is not available yet', 'warning')
+    return redirect(url_for('user.userHome', username=username))
